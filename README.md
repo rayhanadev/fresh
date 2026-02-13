@@ -18,6 +18,7 @@ bun run typecheck
 ```
 
 Testing is intentionally opt-in for this scaffold. Configure it with the `setup-tests` skill.
+Effect is also opt-in for this scaffold. Configure it with the `setup-effect` skill.
 
 ## Environment
 

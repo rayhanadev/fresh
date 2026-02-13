@@ -30,25 +30,16 @@ bun run test:coverage
 
 ### Environment Variables
 
-**NEVER use `process.env` directly in new code.** Environment variables must go through `src/env.ts` (`AppEnv`).
+**NEVER use `process.env` directly in new business code.** Environment variables must go through `src/env.ts` (`AppEnv`).
 
 ```typescript
-import { Effect } from "effect";
 import { AppEnv } from "./env";
 
 // WRONG - Never do this
 const notionToken = process.env.NOTION_TOKEN;
 
-// RIGHT - Access env through Effect context
-const program = Effect.gen(function* () {
-  const env = yield* AppEnv;
-  const notionToken = env.notionToken;
-
-  return notionToken;
-});
-
-// Provide env layer once at app boundary
-const runnable = program.pipe(Effect.provide(AppEnv.Default));
+// RIGHT - Access env through centralized config
+const appName = AppEnv.APP_NAME;
 ```
 
 **Adding new environment variables:**
@@ -57,56 +48,29 @@ const runnable = program.pipe(Effect.provide(AppEnv.Default));
 2. Add the field to `.env.example` (or equivalent env setup docs)
 3. Update any documentation that references environment setup
 
-### Error Classes
+### Error Modeling
 
-**NEVER create ad-hoc Error classes for domain failures.** For Effect code, use typed errors via `Schema.TaggedError`.
+**NEVER create ad-hoc domain errors inline.** Keep domain failures centralized and typed.
 
-```typescript
-import { Effect, Schema } from "effect";
-
-// Define typed domain errors
-class NotionFsError extends Schema.TaggedError<NotionFsError>("NotionFsError")({
-  message: Schema.String,
-  cause: Schema.optional(Schema.Defect),
-}) {}
-
-return Effect.fail(
-  new NotionFsError({
-    message: "Page not found",
-    cause: new Error("Notion API returned 404"),
-  }),
-);
-```
-
-**Adding new error classes:**
+**Adding new error models:**
 
 1. Define in `src/errors.ts` (create it if needed)
-2. Use `Schema.TaggedError` for typed Effect errors
+2. Use stable typed shapes (discriminated unions or typed classes)
 3. Export from `src/index.ts` if public
-4. Document when to use it in the class JSDoc
+4. Document when to use each error type in JSDoc
 
 ---
 
-## Writing Effect Guide
+## Effect Skills
 
-### Writing basic Effects
+Effect setup and best practices are maintained in dedicated skills:
 
-- Prefer `Effect.gen` for async/await-style Effect composition.
-- Use `yield*` to execute Effects.
-- When failing in conditionals, use `return yield* Effect.fail(...)` for correct TypeScript narrowing.
+- Setup and baseline runtime wiring:
+  - `.agents/skills/setup-effect/SKILL.md`
+- Effect implementation and review patterns:
+  - `.agents/skills/write-effect/SKILL.md`
 
-### Writing Effect functions
-
-- Prefer `Effect.fn` for reusable functions that return Effects.
-- Give spans meaningful names: `Effect.fn("Service.method")`.
-- Add log annotations with `Effect.annotateLogs` / `Effect.annotateCurrentSpan`.
-
-### Avoid `try/catch` inside Effects
-
-Inside Effects:
-
-- Use `Effect.try` for sync code that may throw.
-- Use `Effect.tryPromise` for async code that may throw/reject.
+Use those skills whenever a task requests an Effect-first implementation.
 
 ---
 
@@ -119,7 +83,7 @@ Inside Effects:
 #### When `unknown` IS allowed:
 
 - Validation function entry points (e.g., `function validate(data: unknown): MyType`)
-- Schema definitions for genuinely dynamic data (prefer Effect Schema; use Zod when a library does not support Standard Schema)
+- Schema definitions for genuinely dynamic data (prefer runtime schema validation)
 - Catch block error parameters (`catch (error: unknown)`)
 - Index signatures for extensible objects (e.g., `[key: string]: unknown`)
 
@@ -292,7 +256,7 @@ value as SomeType  // Why is this safe?
 - Source files: `kebab-case.ts` (e.g., `daemon-tokens.ts`)
 - Test files: `kebab-case.test.ts` (e.g., `daemon-tokens.test.ts`)
 - Type files: `kebab-case.ts` or `types.ts`
-- Index files: `index.ts` (barrel exports only)
+- Index files: `index.ts` (entrypoint or barrel only; avoid mixed responsibilities)
 
 ---
 
