@@ -1,0 +1,28 @@
+{
+  "name": "__PACKAGE_NAME__",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun src/index.ts",
+    "start": "bun src/index.ts",
+    "lint": "oxlint --type-aware",
+    "format": "oxfmt",
+    "typecheck": "tsc --noEmit",
+    "prepare": "effect-language-service patch"
+  },
+  "dependencies": {
+    "@rayhanadev/env": "latest",
+    "effect": "latest"
+  },
+  "devDependencies": {
+    "@effect/language-service": "latest",
+    "@factory/eslint-plugin": "latest",
+    "@types/bun": "latest",
+    "eslint": "latest",
+    "oxfmt": "latest",
+    "oxlint": "latest",
+    "oxlint-tsgolint": "latest",
+    "typescript": "^5"
+  }
+}
