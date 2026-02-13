@@ -1,6 +1,6 @@
 # **PROJECT_NAME**
 
-Generated with `new`.
+`fresh` project generated with `new`.
 
 ## Install
 
@@ -16,10 +16,3 @@ bun run lint
 bun run format
 bun run typecheck
 ```
-
-Testing is intentionally opt-in for this scaffold. Configure it with the `setup-tests` skill.
-Effect is also opt-in for this scaffold. Configure it with the `setup-effect` skill.
-
-## Environment
-
-Set `APP_NAME` to override the default greeting name.
