@@ -1,18 +1,28 @@
-# **PROJECT_NAME**
+# fresh
 
-`fresh` project generated with `new`.
+A minimal TypeScript starter project with Bun, Zod, and modern development tools.
 
-## Install
+## Setup
 
 ```bash
 bun install
 ```
 
-## Commands
+## Development
 
 ```bash
-bun run dev
-bun run lint
-bun run format
-bun run typecheck
+bun run dev       # Run the project
+bun run start     # Alias for dev
+bun run lint      # Lint with oxlint
+bun run format    # Format with oxfmt
+bun run typecheck # Type check with tsgo
 ```
+
+## Stack
+
+- **Runtime**: [Bun](https://bun.sh)
+- **Language**: TypeScript
+- **Validation**: [Zod](https://zod.dev)
+- **Linting**: [oxlint](https://oxc.rs)
+- **Formatting**: [oxfmt](https://oxc.rs)
+- **Environment**: [@t3-oss/env-core](https://env.t3.gg)

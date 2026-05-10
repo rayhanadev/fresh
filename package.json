@@ -1,26 +1,26 @@
 {
   "name": "__PACKAGE_NAME__",
   "version": "0.1.0",
-  "devDependencies": {
-    "@factory/eslint-plugin": "latest",
-    "@types/bun": "latest",
-    "eslint": "latest",
-    "oxfmt": "latest",
-    "oxlint": "latest",
-    "oxlint-tsgolint": "latest",
-    "typescript": "^5"
-  },
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "bun src/index.ts",
     "start": "bun src/index.ts",
     "lint": "oxlint --type-aware",
     "format": "oxfmt",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsgo --noEmit"
   },
-  "type": "module",
   "dependencies": {
     "@t3-oss/env-core": "^0.13.10",
     "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@factory/eslint-plugin": "latest",
+    "@types/bun": "latest",
+    "@typescript/native-preview": "^7.0.0-dev.20260510.1",
+    "oxclippy": "^0.2.0",
+    "oxfmt": "latest",
+    "oxlint": "latest",
+    "oxlint-tsgolint": "latest"
   }
 }
